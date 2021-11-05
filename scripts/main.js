@@ -1,4 +1,4 @@
-const container = document.querySelector('#container');
+const container = document.querySelector('#grid-container');
 
 
 
@@ -25,4 +25,4 @@ function createGrid(num) {
 
 
 
-createGrid(5);
+createGrid(8);

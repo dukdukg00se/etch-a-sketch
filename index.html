@@ -8,12 +8,42 @@
 
   <link href="styles/reset.css" rel="stylesheet">
   <link href="styles/styles.css" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+
   <script src="scripts/main.js" defer></script>
 </head>
 
 <body>
-  <h1>Etch-A-Sketch</h1>
-  <div id="container"></div>
+  <header>
+    <h1>Click-A-Sketch</h1>
+  </header>
   
+  <main>
+    <div id="controls">
+      <button>Pen Color</button>
+      <button>Background Color</button>
+      <button>Rainbow</button>
+      <button>Shade</button>
+      <button>Lighten</button>
+      <button>Clear</button>
+      
+
+      <button>Grid Lines: On/Off</button>
+      <div class="slide-container">
+        <input type="range" min="1" max="75" value="25" class="slider"> 
+      </div>
+      <p id="slide-size">Grid Size:</p>
+
+    </div>
+
+    <div id="grid-container"></div>
+  </main>
+
+  <footer>
+    By Will
+  </footer>
 </body>
 </html>
