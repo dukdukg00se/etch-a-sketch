@@ -49,6 +49,19 @@ button:hover {
   align-items: center;
 }
 
+#pen-color-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .7rem;
+}
+
+#pen-color {
+  height: 25px;
+  width: 25px;
+  padding: 0;
+  border: none;
+}
 
 /* The slider */
 .slider {
