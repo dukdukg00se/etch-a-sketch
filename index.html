@@ -11,7 +11,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
 
   <script src="scripts/main.js" defer></script>
 </head>
@@ -23,30 +23,44 @@
   
   <main>
     <div id="controls">
-      <button id="pen-color-button">
-        Pen Color
-        <input id="pen-color" type="color">
-      </button>
-      <button>Background Color</button>
+      <div id="color-pick-container">
+        <button class="color-pick-button" id="pen-color">
+          Pen Color
+          <input class="color-input" type="color">
+        </button>
+
+        <button class="color-pick-button" id="bkgrnd-color">
+          Background Color
+          <input class="color-input" type="color">
+        </button>
+      </div>
+
       <button>Rainbow</button>
       <button>Shade</button>
       <button>Lighten</button>
-      <button>Clear</button>
-      
-
-      <button>Grid Lines: On/Off</button>
+      <button>Grid Lines:</button>
+            
       <div class="slide-container">
         <input type="range" min="1" max="75" value="25" class="slider"> 
       </div>
-      <p id="slide-size">Grid Size:</p>
+      <p id="slide-size">
+        Grid Size:
+      </p>
 
+      <button>Clear</button>
     </div>
 
     <div id="grid-container"></div>
   </main>
 
   <footer>
-    By Will
+    <div class="footer-knob">
+      <div class="knob-dimple"></div>
+    </div>
+    <p>By Will</p>
+    <div class="footer-knob">
+      <div class="knob-dimple"></div>
+    </div>
   </footer>
 </body>
 </html>
