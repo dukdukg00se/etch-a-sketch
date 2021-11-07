@@ -5,7 +5,7 @@ html {
   font-size: 15px;
   letter-spacing: 0.1rem;
   background-color: black;
-  min-width: 590px;
+  min-width: 670px;
 }
 
 header {
@@ -14,15 +14,15 @@ header {
   text-align: center;
   font-size: 3.5rem;
   font-weight: bold;
-  padding-top: 50px;
+  padding-top: 30px;
 }
 
 main {
   display: flex;
   justify-content: center;
-  padding: 25px;
+  padding: 5px;
   background-color: rgb(180, 179, 179);
-  border: solid 50px black;
+  border: solid 20px black;
   border-radius: 100px;
 }
 
@@ -41,14 +41,14 @@ button:hover {
 #controls {
   margin: 15px 15px 15px 0;
   padding: 15px;
-  height: 500px;
+
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
 }
 
-.color-pick-button {
+.color-pick-buttons {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -70,6 +70,7 @@ input[type="color"] {
 }
 
 .color-input::-webkit-color-swatch {
+  
   border: none;
   border-radius: 40%;
 }
@@ -119,6 +120,8 @@ input[type="color"] {
   letter-spacing: initial;
 }
 
+
+
 #grid-container {
   border: solid 2px black;
   border-radius: 10px;
@@ -145,6 +148,10 @@ input[type="color"] {
 .box:hover {
   background-color: red;
 }
+
+
+
+
 
 footer {
   display: flex;
@@ -176,7 +183,7 @@ footer {
 
 
 
-@media (max-width: 890px) {
+@media (max-width: 950px) {
   main {
     display: flex;
     flex-direction: column;
@@ -194,26 +201,22 @@ footer {
   main {
     display: flex;
     flex-direction: column-reverse;
-    border: 3px solid green;
-    justify-content: center;
+    margin: initial;
+    padding: 0 0 15px;
     align-items: center;
   }
 
   #controls {
-    height: auto;
     margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+    padding: 5px;
+    gap: 10px;
   }
 
   #slide-size {
     font-family: arial;
     font: 1rem;
     letter-spacing: initial;
-    margin-top: auto;
+    margin: 0;
   }
 
 
