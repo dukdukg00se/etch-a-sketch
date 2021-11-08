@@ -1,6 +1,5 @@
+// Creates the desired grid size in 500x500 container by inputting in number into function
 const gridContainer = document.querySelector('#grid-container');
-
-
 function createGrid(num) {
   for (let rows = 0; rows < num; rows++) {
     for (let columns = 0; columns < num; columns++) {
@@ -13,54 +12,37 @@ function createGrid(num) {
     }
   }
 }
-createGrid(4);
+createGrid(50);
 
-
-/*
-const penColor = document.getElementById('pen-color-input');
-penColor.addEventListener('input', (e) => {
-  //const boxColor = document.querySelector('.box');
-  //boxColor.style.cssText = ''
-  
-  console.log(e.target);
-})
-
-const penColor = document.getElementById('pen-color-input');
-console.log(penColor.value);
-*/
-
-
-const penColor = document.getElementById('pen-color-input');
-penColor.addEventListener("input", updateFirst, false);
-//penColor.addEventListener("change", watchColorPicker, false);
-
-function watchColorPicker(event) {
-  document.querySelectorAll(".color-pick-buttons").forEach(function(cpb) {
-    cpb.style.color = event.target.value;
+// Sets the default pen color effect to black
+const box = document.querySelectorAll(".box");
+box.forEach((boxSq) => {
+  boxSq.addEventListener('mouseover', function() {
+    boxSq.style.backgroundColor = "#000000";
   });
+});
+
+// Let browser know that the 'Pen Color' button was clicked and to set the pen color to color input
+const penColor = document.getElementById('pen-color-input');
+penColor.addEventListener("input", updateColor, false);
+
+// Function sets the pen color to selected color for the pen effect
+function updateColor(event) {
+  const boxColor = document.querySelectorAll(".box");
+
+  if (this) /* 'this' refers to 'penColor' variable here */{
+    boxColor.forEach((box) => {
+      box.addEventListener('mouseover', function() {
+        box.style.backgroundColor = event.target.value;
+      });
+    });
+  }
 }
 
+/* This returns event.target.value, originally used to try to get the value of color input by adding the function into the penColor event listener and setting backgroundColor to the value but this didn't work
 
-function updateFirst(event) {
-  const boxColor = document.querySelectorAll('.box');
+function getValue(event) {
   console.log(event.target.value);
-  
-  if (penColor) {
-    boxColor.forEach(function(box) {
-      box.style.backgroundColor = event.target.value;
-    })
-  }
-  /*
-  if (penColor) {
-    boxColor.style.backgroundColor = event.target.value;
-  }
-  */
-}
-/*
-function updateAll(event) {
-  document.querySelectorAll(".box").forEach(function(box) {
-    box.style.backgroundColor = event.target.value;
-  });
+  return event.target.value;
 }
 */
-

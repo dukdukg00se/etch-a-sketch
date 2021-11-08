@@ -65,9 +65,14 @@ button:hover {
   padding: none;
 }
 
+/* 
+********
+Controls padding of color swatch; the container that wraps the color input. Originally set to 0 but later I decided to keep default padding for better visibility
+********
 input[type="color"] {
-  padding: 0; /* Remove padding of color swatch */ 
+  padding: 1px; 
 }
+ */ 
 
 .color-input::-webkit-color-swatch {
   
@@ -76,7 +81,7 @@ input[type="color"] {
 }
 
 .color-input::-webkit-color-swatch-wrapper {
-  border: none;
+  border: black;
   border-radius: 40%;
   padding: 0;
 }
@@ -180,8 +185,6 @@ footer {
   width: 10px;
   border-radius: 50%;
 }
-
-
 
 @media (max-width: 950px) {
   main {
