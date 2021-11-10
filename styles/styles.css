@@ -111,19 +111,17 @@ input[type="color"] {
   appearance: none; /* Override default look */
   width: 25px; /* Slider handle width */
   height: 25px; /* Slider handle height */
-  background: rgb(82, 81, 81);
+  background: rgb(0, 0, 0);
   border-radius: 50%;
   cursor: pointer; /* Cursor on hover */
 }
 
-#slide-size {
+#slider-size {
   margin-top: -20px;
   font-family: arial;
   font: 1rem;
   letter-spacing: initial;
 }
-
-
 
 #outer-container {
   border: solid 2px black;
@@ -147,8 +145,6 @@ input[type="color"] {
   box-sizing: border-box;
 }
 
-
-
 footer {
   display: flex;
   justify-content: space-between;
@@ -157,6 +153,7 @@ footer {
   color: white;
   background-color: black;
   height: 90px;
+  font-size: 2rem;
 }
 
 .footer-knob {
@@ -206,12 +203,11 @@ footer {
     gap: 10px;
   }
 
-  #slide-size {
+  #slider-size {
     font-family: arial;
     font: 1rem;
     letter-spacing: initial;
     margin: 0;
   }
-
-
 }
+
