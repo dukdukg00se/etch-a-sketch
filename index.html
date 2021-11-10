@@ -32,7 +32,6 @@
         </button>
 
         <!-- Remove this functionality for now, revisit later.
-
         <button class="color-pick-buttons" id="bkgrnd-color">
           Background Color
           <input class="color-input" type="color" value="#ffffff">
@@ -41,22 +40,27 @@
       </div>
 
       <button id="rainbow">Rainbow</button>
+      <!-- Remove the shade and lighten button for not, revisit later.
       <button id="shade">Shade</button>
       <button id="lighten">Lighten</button>
+      -->
       <button id="eraser">Eraser</button>
       <button id="grid-lines">Grid Lines:</button>
 
       <div class="slide-container">
-        <input type="range" min="1" max="75" value="25" class="slider"> 
+        <input id="slider" type="range" min="1" max="75" value="25" class="slider"> 
       </div>
       <p id="slide-size">
-        Grid Size:
+        Grid Size: 25 x 25
       </p>
 
       <button>Clear</button>
     </div>
 
-    <div id="grid-container"></div>
+    <div id="outer-container"></div>
+
+
+
   </main>
 
   <footer>

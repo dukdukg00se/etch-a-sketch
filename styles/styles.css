@@ -41,7 +41,6 @@ button:hover {
 #controls {
   margin: 15px 15px 15px 0;
   padding: 15px;
-
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -75,7 +74,6 @@ input[type="color"] {
  */ 
 
 .color-input::-webkit-color-swatch {
-  
   border: none;
   border-radius: 40%;
 }
@@ -127,7 +125,7 @@ input[type="color"] {
 
 
 
-#grid-container {
+#outer-container {
   border: solid 2px black;
   border-radius: 10px;
   margin: 15px;
@@ -147,14 +145,7 @@ input[type="color"] {
   border: solid 1px rgb(56, 55, 55);
   background-color: white;
   box-sizing: border-box;
-  
 }
-
-.box:hover {
-  background-color: red;
-}
-
-
 
 
 
