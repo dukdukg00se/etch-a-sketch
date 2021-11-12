@@ -18,8 +18,8 @@ function createGrid(num) {
       const aBox = document.createElement('div');
       aBox.classList.add('box');
 
-      aBox.classList.add('grid');
-      aBox.classList.add('test'); // For background change button; to toggle
+      aBox.classList.add('gridLines');
+      aBox.classList.add('empty'); // For background change button; to toggle
 
       innerContainer.append(aBox);
 
@@ -30,9 +30,7 @@ function createGrid(num) {
 outerContainer.append(innerContainer);
 }
 // Default grid size
-createGrid(5);
-
-
+createGrid(25);
 
 
 const slider = document.getElementById('slider');
@@ -41,13 +39,11 @@ slider.addEventListener('click', function(e) {
   removeInner.remove();
   createGrid(e.target.value);
 
-
   const box = document.querySelectorAll('.box');
   box.forEach((boxSq) => {
     boxSq.style.backgroundColor = currentBkgrndColor;
-    boxSq.classList.add('test'); 
+    boxSq.classList.add('empty'); 
     boxSq.addEventListener('mouseenter', function() {
-
       if (rainbowMode) {
         boxSq.style.backgroundColor = getRandomColor();
       } else if (eraserMode) {
@@ -55,14 +51,21 @@ slider.addEventListener('click', function(e) {
       } else {
         boxSq.style.backgroundColor = currentPenColor;
       }
-      boxSq.classList.remove('test'); 
+      boxSq.classList.remove('empty'); 
     });
   });
 
   // Update slider size 
-  const gridSize = document.getElementById('slider-size');
-  gridSize.textContent = `Grid Size: ${e.target.value} x ${e.target.value}`;
+  //const gridSize = document.getElementById('slider-size');
+  //gridSize.textContent = `Grid Size: ${e.target.value} x ${e.target.value}`;
 });
+
+// Update slider size 
+const gridSize = document.getElementById('slider-size');
+slider.addEventListener('mousemove', function(e) {
+  gridSize.textContent = `Grid Size: ${e.target.value} x ${e.target.value}`;
+})
+
 
 
 function checkMode() {
@@ -79,24 +82,15 @@ function checkMode() {
   }
 }
 
-
-
-
-
-
-
-
-
-
 // Set default pen color effect to black
 const box = document.querySelectorAll(".box");
 box.forEach((boxSq) => {
   boxSq.addEventListener('mouseenter', function() {
     boxSq.style.backgroundColor = currentPenColor;
     
-    //boxSq.classList.toggle('test'); (Doesn't work, everytime mouse over it toggles class)
+    //boxSq.classList.toggle('empty'); (Doesn't work, everytime mouse over it toggles class)
 
-    boxSq.classList.remove('test');
+    boxSq.classList.remove('empty');
   });
 });
 
@@ -112,9 +106,7 @@ pen.addEventListener('click', function() {
   boxColor.forEach((box) => {
     box.addEventListener('mouseenter', function () {
       box.style.backgroundColor = currentPenColor;
-      
-      
-      box.classList.remove('test'); 
+      box.classList.remove('empty'); 
     });
   });
 });
@@ -136,23 +128,18 @@ function updateColor(event) {
       box.addEventListener('mouseenter', function() {
         currentPenColor = event.target.value;
         box.style.backgroundColor = currentPenColor;
-
-        
-        
-        box.classList.remove('test'); 
+        box.classList.remove('empty'); 
       });
     });
   }
 }
 
 
-
-
 const bkgrndColor = document.getElementById('bkgrnd-color-input');
 bkgrndColor.addEventListener('input', updateBkgrnd, false);
 
 function updateBkgrnd(event) {
-  const bkgrnd = document.querySelectorAll('.test');
+  const bkgrnd = document.querySelectorAll('.empty');
   bkgrnd.forEach((box) => {
     currentBkgrndColor = event.target.value;
     box.style.backgroundColor = currentBkgrndColor;
@@ -162,7 +149,7 @@ function updateBkgrnd(event) {
   box.forEach((boxSq) => {
     boxSq.addEventListener('mouseenter', function() {
       boxSq.style.backgroundColor = currentPenColor;
-      boxSq.classList.remove('test'); 
+      boxSq.classList.remove('empty'); 
     });
   });
 }
@@ -185,21 +172,11 @@ function setRainbow() {
         //box.style.backgroundColor = currentPenColor;
 
         box.style.backgroundColor = getRandomColor();
-
-        
-
-        box.classList.remove('test'); 
+        box.classList.remove('empty'); 
 
       });
     });
-    
   }
-  
-  /*
-  if (rainbowMode) {
-    penRainbow.style.cssText = "background-color: black; color: white";
-  }
-  */
 }
 
 // Random color generator
@@ -218,62 +195,25 @@ function setEraser() {
   rainbowMode = false;
   eraserMode = true;
   checkMode();
-  console.log(!!eraserMode);
 
   const boxColor = document.querySelectorAll(".box");
   if (this) {
     boxColor.forEach((box) => {
       box.addEventListener('mouseenter', function() {
         box.style.backgroundColor = currentBkgrndColor;
-
-        
-
-        box.classList.add('test'); 
+        box.classList.add('empty'); 
       });
-    });
-    
+    }); 
   }
-
-  /*
-  if (eraserMode) {
-    penEraser.style.cssText = "background-color: black; color: white";
-  }
-  */
-
 }
-
-
-
-
-
-
-
-// Clear the grid and reset 
-/*
-const clear = document.getElementById('clear');
-clear.addEventListener('click', function() {
-  const removeInner = document.querySelector('.inner-container');
-  removeInner.remove();
-  createGrid(25);
-
-  // Update slider size 
-  const gridSize = document.getElementById('slider-size');
-  slider.value = '25';
-  gridSize.textContent = `Grid Size: ${slider.value} x ${slider.value}`;
-});
-*/
 
 // CLEAR GRID
 const clear = document.getElementById('clear');
 clear.addEventListener('click', function() {
-  
-
   const box = document.querySelectorAll('.box');
   box.forEach((boxSq) => {
     boxSq.style.backgroundColor = currentBkgrndColor;
-    boxSq.classList.add('test'); 
-
-    
+    boxSq.classList.add('empty'); 
     boxSq.addEventListener('mouseenter', function() {
       if (rainbowMode) {
         boxSq.style.backgroundColor = getRandomColor();
@@ -282,8 +222,7 @@ clear.addEventListener('click', function() {
       } else {
         boxSq.style.backgroundColor = currentPenColor;
       }
-      
-      boxSq.classList.remove('test'); 
+      boxSq.classList.remove('empty'); 
     });
   });
 });
@@ -293,7 +232,7 @@ const gridToggle = document.getElementById('grid-lines');
 gridToggle.addEventListener('click', function () {
   const box = document.querySelectorAll('.box');
   box.forEach((boxSq) => {
-    boxSq.classList.toggle('grid');
+    boxSq.classList.toggle('gridLines');
   });
 })
 

@@ -38,10 +38,12 @@ button:hover {
   transform: scale(1.05);
 }
 
+/*
 #rainbow:focus, #eraser:focus {
   background-color: black;
   color: white;
 }
+*/
 
 #grid-lines:active, #clear:active {
   background-color: black;
@@ -155,7 +157,7 @@ input[type="color"] {
   box-sizing: border-box;
 }
 
-.grid {
+.gridLines {
   border: solid 1px rgb(56, 55, 55);
 }
 
