@@ -38,6 +38,16 @@ button:hover {
   transform: scale(1.05);
 }
 
+#rainbow:focus, #eraser:focus {
+  background-color: black;
+  color: white;
+}
+
+#grid-lines:active, #clear:active {
+  background-color: black;
+  color: white;
+}
+
 #controls {
   margin: 15px 15px 15px 0;
   padding: 15px;
@@ -140,9 +150,13 @@ input[type="color"] {
 }
 
 .box {
-  border: solid 1px rgb(56, 55, 55);
+  /* border: solid 1px rgb(56, 55, 55); */
   background-color: white;
   box-sizing: border-box;
+}
+
+.grid {
+  border: solid 1px rgb(56, 55, 55);
 }
 
 footer {

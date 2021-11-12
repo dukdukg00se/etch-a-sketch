@@ -1,3 +1,8 @@
+let currentPenColor = '#000000';
+let currentBkgrndColor = "#FFFFFF";
+let rainbowMode = false;
+let eraserMode = false;
+
 // Create desired grid size in 500x500 container; default is set at 25x25
 const outerContainer = document.querySelector('#outer-container');
 
@@ -13,6 +18,7 @@ function createGrid(num) {
       const aBox = document.createElement('div');
       aBox.classList.add('box');
 
+      aBox.classList.add('grid');
       aBox.classList.add('test'); // For background change button; to toggle
 
       innerContainer.append(aBox);
@@ -24,7 +30,10 @@ function createGrid(num) {
 outerContainer.append(innerContainer);
 }
 // Default grid size
-createGrid(25);
+createGrid(5);
+
+
+
 
 const slider = document.getElementById('slider');
 slider.addEventListener('click', function(e) {
@@ -32,15 +41,45 @@ slider.addEventListener('click', function(e) {
   removeInner.remove();
   createGrid(e.target.value);
 
+
+  const box = document.querySelectorAll('.box');
+  box.forEach((boxSq) => {
+    boxSq.style.backgroundColor = currentBkgrndColor;
+    boxSq.classList.add('test'); 
+    boxSq.addEventListener('mouseenter', function() {
+
+      if (rainbowMode) {
+        boxSq.style.backgroundColor = getRandomColor();
+      } else if (eraserMode) {
+        boxSq.style.backgroundColor = currentBkgrndColor;
+      } else {
+        boxSq.style.backgroundColor = currentPenColor;
+      }
+      boxSq.classList.remove('test'); 
+    });
+  });
+
   // Update slider size 
   const gridSize = document.getElementById('slider-size');
   gridSize.textContent = `Grid Size: ${e.target.value} x ${e.target.value}`;
 });
 
 
+function checkMode() {
+  if (rainbowMode) {
+    penRainbow.style.cssText = "background-color: black; color: white";
+  } else if (!rainbowMode) {
+    penRainbow.style.cssText = "background-color: rgb(239, 239, 239); color: black";
+  }
 
-let currentPenColor = '#000000';
-let currentBkgrndColor = "#FFFFFF";
+  if (eraserMode) {
+    penEraser.style.cssText = "background-color: black; color: white";
+  } else if (!eraserMode) {
+    penEraser.style.cssText = "background-color: rgb(239, 239, 239); color: black";
+  }
+}
+
+
 
 
 
@@ -54,7 +93,7 @@ const box = document.querySelectorAll(".box");
 box.forEach((boxSq) => {
   boxSq.addEventListener('mouseenter', function() {
     boxSq.style.backgroundColor = currentPenColor;
-
+    
     //boxSq.classList.toggle('test'); (Doesn't work, everytime mouse over it toggles class)
 
     boxSq.classList.remove('test');
@@ -62,23 +101,42 @@ box.forEach((boxSq) => {
 });
 
 
+const pen = document.getElementById('pen-color');
+pen.addEventListener('click', function() {
+  rainbowMode = false;
+  eraserMode = false;
+  checkMode();
 
 
+  const boxColor = document.querySelectorAll(".box");
+  boxColor.forEach((box) => {
+    box.addEventListener('mouseenter', function () {
+      box.style.backgroundColor = currentPenColor;
+      
+      
+      box.classList.remove('test'); 
+    });
+  });
+});
 
-// Let browser know that 'Pen Color' button clicked and set pen color to color input
-const penColor = document.getElementById('pen-color-input');
-penColor.addEventListener("input", updateColor, false /* 'false' doesn't seem necessary here?? */);
+
+// Let browser know that pen color swatch clicked and set pen color to color input
+const penColorInput = document.getElementById('pen-color-input');
+penColorInput.addEventListener("input", updateColor, false /* 'false' doesn't seem necessary here?? */);
 
 // Sets pen color to selected color for pen effect
 function updateColor(event) {
-  const boxColor = document.querySelectorAll(".box");
+  rainbowMode = false;
+  eraserMode = false;
 
+  const boxColor = document.querySelectorAll(".box");
   // 'this' refers to 'penColor' variable here 
   if (this) {
     boxColor.forEach((box) => {
       box.addEventListener('mouseenter', function() {
         currentPenColor = event.target.value;
         box.style.backgroundColor = currentPenColor;
+
         
         
         box.classList.remove('test'); 
@@ -95,10 +153,17 @@ bkgrndColor.addEventListener('input', updateBkgrnd, false);
 
 function updateBkgrnd(event) {
   const bkgrnd = document.querySelectorAll('.test');
-
   bkgrnd.forEach((box) => {
     currentBkgrndColor = event.target.value;
     box.style.backgroundColor = currentBkgrndColor;
+  });
+
+  const box = document.querySelectorAll('.box');
+  box.forEach((boxSq) => {
+    boxSq.addEventListener('mouseenter', function() {
+      boxSq.style.backgroundColor = currentPenColor;
+      boxSq.classList.remove('test'); 
+    });
   });
 }
 
@@ -107,44 +172,81 @@ function updateBkgrnd(event) {
 const penRainbow = document.getElementById('rainbow');
 penRainbow.addEventListener('click', setRainbow, false /* 'false' doesn't seem necessary here?? */);
 function setRainbow() {
+  rainbowMode = true;
+  eraserMode = false;
+  checkMode();
+
   const boxColor = document.querySelectorAll(".box");
   // 'this' refers to 'penRainbow' variable here 
   if (this) {
     boxColor.forEach((box) => {
       box.addEventListener('mouseenter', function() {
-        currentPenColor = getRandomColor();
-        box.style.backgroundColor = currentPenColor;
+        //currentPenColor = getRandomColor();
+        //box.style.backgroundColor = currentPenColor;
+
+        box.style.backgroundColor = getRandomColor();
+
+        
 
         box.classList.remove('test'); 
 
       });
     });
+    
   }
+  
+  /*
+  if (rainbowMode) {
+    penRainbow.style.cssText = "background-color: black; color: white";
+  }
+  */
 }
 
 // Random color generator
 function getRandomColor() {
+  
   // Another option is "#" + Math.floor(Math.random()*16777215).toString(16) 
   // Or `rgb(${Math.floor(Math.random() * 256), ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256))`
   // Below returns fewer, but more colorful, colors
   return `hsl(${Math.random() * 360}, 100%, 50%)`;
 }
 
-// Set color to white when mouse over grid boxes to create eraser effect
+// ERASER: Set color to white when mouse over grid boxes to create eraser effect
 const penEraser = document.getElementById('eraser');
 penEraser.addEventListener('click', setEraser, false);
 function setEraser() {
+  rainbowMode = false;
+  eraserMode = true;
+  checkMode();
+  console.log(!!eraserMode);
+
   const boxColor = document.querySelectorAll(".box");
   if (this) {
     boxColor.forEach((box) => {
       box.addEventListener('mouseenter', function() {
         box.style.backgroundColor = currentBkgrndColor;
 
+        
+
         box.classList.add('test'); 
       });
     });
+    
   }
+
+  /*
+  if (eraserMode) {
+    penEraser.style.cssText = "background-color: black; color: white";
+  }
+  */
+
 }
+
+
+
+
+
+
 
 // Clear the grid and reset 
 /*
@@ -161,19 +263,39 @@ clear.addEventListener('click', function() {
 });
 */
 
-// Clear grid only
+// CLEAR GRID
 const clear = document.getElementById('clear');
 clear.addEventListener('click', function() {
+  
+
   const box = document.querySelectorAll('.box');
   box.forEach((boxSq) => {
     boxSq.style.backgroundColor = currentBkgrndColor;
-
     boxSq.classList.add('test'); 
-  })
+
+    
+    boxSq.addEventListener('mouseenter', function() {
+      if (rainbowMode) {
+        boxSq.style.backgroundColor = getRandomColor();
+      } else if (eraserMode) {
+        boxSq.style.backgroundColor = currentBkgrndColor;
+      } else {
+        boxSq.style.backgroundColor = currentPenColor;
+      }
+      
+      boxSq.classList.remove('test'); 
+    });
+  });
 });
 
-
-
+// TOGGLE GRID LINES
+const gridToggle = document.getElementById('grid-lines');
+gridToggle.addEventListener('click', function () {
+  const box = document.querySelectorAll('.box');
+  box.forEach((boxSq) => {
+    boxSq.classList.toggle('grid');
+  });
+})
 
 
 
