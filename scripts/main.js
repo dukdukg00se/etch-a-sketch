@@ -10,8 +10,6 @@ function createGrid(num) {
   // Create an inner container to add boxes to which can be removed when resizing grid
   const innerContainer = document.createElement('div');
   innerContainer.classList.add('inner-container');
-  innerContainer.style.display = 'flex';
-  innerContainer.style.flexWrap = 'wrap';
   
   for (let rows = 0; rows < num; rows++) {
     for (let columns = 0; columns < num; columns++) {
@@ -28,12 +26,16 @@ function createGrid(num) {
     }
   }
 outerContainer.append(innerContainer);
+
 }
 // Default grid size
 createGrid(25);
 
-
+console.log(slider.value);
 const slider = document.getElementById('slider');
+
+
+
 slider.addEventListener('click', function(e) {
   const removeInner = document.querySelector('.inner-container');
   removeInner.remove();
