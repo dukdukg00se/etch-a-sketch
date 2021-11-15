@@ -1,288 +1,194 @@
-let currentPenColor = '#000000';
-let currentBkgrndColor = "#FFFFFF";
+let currentPenColor = "#000000";
+let currentBkgrndColor = "#ffffff";
 let rainbowMode = false;
 let eraserMode = false;
 
-// Create desired grid size in 500x500 container; default is set at 25x25
-const outerContainer = document.querySelector('#outer-container');
-
+// Create a grid in a 500px x 500px container; default is 25x25
 function createGrid(num) {
-  // Create an inner container to add boxes to which can be removed when resizing grid
-  const innerContainer = document.createElement('div');
-  innerContainer.classList.add('inner-container');
-  
+  const innerContainer = document.createElement("div");
+  innerContainer.classList.add("inner-container");
   for (let rows = 0; rows < num; rows++) {
     for (let columns = 0; columns < num; columns++) {
-      const aBox = document.createElement('div');
-      aBox.classList.add('box');
-
-      aBox.classList.add('gridLines');
-      aBox.classList.add('empty'); // For background change button; to toggle
-
-      innerContainer.append(aBox);
-
-      aBox.style.width = `${500 / num}px`;
-      aBox.style.height = `${500 / num}px`;
+      const box = document.createElement("div");
+      box.classList.add("box", "gridLines", "empty");
+      innerContainer.append(box);
+      box.style.cssText = `width: ${500 / num}px; height: ${500 / num}px`;
     }
   }
-outerContainer.append(innerContainer);
-
+  const outerContainer = document.querySelector("#outer-container");
+  outerContainer.append(innerContainer);
 }
-// Default grid size
 createGrid(25);
 
-console.log(slider.value);
-const slider = document.getElementById('slider');
-
-
-
-slider.addEventListener('click', function(e) {
-  const removeInner = document.querySelector('.inner-container');
-  removeInner.remove();
+// On slider click, remove previous grid, create new grid, set bkgrnd and pen colors
+const slider = document.getElementById("slider");
+slider.addEventListener("click", function (e) {
+  const innerContainer = document.querySelector(".inner-container");
+  innerContainer.remove();
   createGrid(e.target.value);
-
-  const box = document.querySelectorAll('.box');
-  box.forEach((boxSq) => {
-    boxSq.style.backgroundColor = currentBkgrndColor;
-    boxSq.classList.add('empty'); 
-    boxSq.addEventListener('mouseenter', function() {
+  const box = document.querySelectorAll(".box");
+  box.forEach((singleBox) => {
+    singleBox.style.backgroundColor = currentBkgrndColor;
+    //singleBox.classList.add("empty");
+    singleBox.addEventListener("mouseenter", function () {
       if (rainbowMode) {
-        boxSq.style.backgroundColor = getRandomColor();
+        singleBox.style.backgroundColor = getRandomColor();
       } else if (eraserMode) {
-        boxSq.style.backgroundColor = currentBkgrndColor;
+        singleBox.style.backgroundColor = currentBkgrndColor;
       } else {
-        boxSq.style.backgroundColor = currentPenColor;
+        singleBox.style.backgroundColor = currentPenColor;
       }
-      boxSq.classList.remove('empty'); 
+      singleBox.classList.remove("empty");
     });
   });
-
-  // Update slider size 
-  //const gridSize = document.getElementById('slider-size');
-  //gridSize.textContent = `Grid Size: ${e.target.value} x ${e.target.value}`;
 });
 
-// Update slider size 
-const gridSize = document.getElementById('slider-size');
-slider.addEventListener('mousemove', function(e) {
+// Update slider size text as you move slider thumb
+const gridSize = document.getElementById("slider-size");
+slider.addEventListener("mousemove", function (e) {
   gridSize.textContent = `Grid Size: ${e.target.value} x ${e.target.value}`;
-})
+});
 
-
-
+// Set pen and eraser button background color when active/inactive
 function checkMode() {
   if (rainbowMode) {
     penRainbow.style.cssText = "background-color: black; color: white";
   } else if (!rainbowMode) {
-    penRainbow.style.cssText = "background-color: rgb(239, 239, 239); color: black";
+    penRainbow.style.cssText =
+      "background-color: rgb(239, 239, 239); color: black";
   }
-
   if (eraserMode) {
     penEraser.style.cssText = "background-color: black; color: white";
   } else if (!eraserMode) {
-    penEraser.style.cssText = "background-color: rgb(239, 239, 239); color: black";
+    penEraser.style.cssText =
+      "background-color: rgb(239, 239, 239); color: black";
   }
 }
 
-// Set default pen color effect to black
+// Set default pen color effect to currentPenColor (black)
 const box = document.querySelectorAll(".box");
-box.forEach((boxSq) => {
-  boxSq.addEventListener('mouseenter', function() {
-    boxSq.style.backgroundColor = currentPenColor;
-    
-    //boxSq.classList.toggle('empty'); (Doesn't work, everytime mouse over it toggles class)
-
-    boxSq.classList.remove('empty');
+box.forEach((singleBox) => {
+  singleBox.addEventListener("mouseenter", function () {
+    singleBox.style.backgroundColor = currentPenColor;
+    singleBox.classList.remove("empty");
   });
 });
 
-
-const pen = document.getElementById('pen-color');
-pen.addEventListener('click', function() {
+// When 'Pen' button clicked, set the pen mode to currentPenColor
+const pen = document.getElementById("pen-color");
+pen.addEventListener("click", function () {
   rainbowMode = false;
   eraserMode = false;
   checkMode();
-
-
   const boxColor = document.querySelectorAll(".box");
-  boxColor.forEach((box) => {
-    box.addEventListener('mouseenter', function () {
-      box.style.backgroundColor = currentPenColor;
-      box.classList.remove('empty'); 
+  boxColor.forEach((singleBox) => {
+    singleBox.addEventListener("mouseenter", function () {
+      singleBox.style.backgroundColor = currentPenColor;
+      singleBox.classList.remove("empty");
     });
   });
 });
 
-
-// Let browser know that pen color swatch clicked and set pen color to color input
-const penColorInput = document.getElementById('pen-color-input');
-penColorInput.addEventListener("input", updateColor, false /* 'false' doesn't seem necessary here?? */);
-
-// Sets pen color to selected color for pen effect
+// Let browser know that pen color swatch clicked, update the currentPenColor variable, and set pen color to color input
+const penColorInput = document.getElementById("pen-color-input");
+penColorInput.addEventListener("input", updateColor);
 function updateColor(event) {
   rainbowMode = false;
   eraserMode = false;
-
+  currentPenColor = event.target.value;
   const boxColor = document.querySelectorAll(".box");
-  // 'this' refers to 'penColor' variable here 
-  if (this) {
-    boxColor.forEach((box) => {
-      box.addEventListener('mouseenter', function() {
-        currentPenColor = event.target.value;
-        box.style.backgroundColor = currentPenColor;
-        box.classList.remove('empty'); 
-      });
+  boxColor.forEach((singleBox) => {
+    singleBox.addEventListener("mouseenter", function () {
+      singleBox.style.backgroundColor = currentPenColor;
+      singleBox.classList.remove("empty");
     });
-  }
+  });
 }
 
-
-const bkgrndColor = document.getElementById('bkgrnd-color-input');
-bkgrndColor.addEventListener('input', updateBkgrnd, false);
-
+// Let browser know that background color swatch clicked, update the currentBkgrndColor variable, and set background color to input by selecting only the 'empty' class
+const bkgrndColor = document.getElementById("bkgrnd-color-input");
+bkgrndColor.addEventListener("input", updateBkgrnd);
 function updateBkgrnd(event) {
-  const bkgrnd = document.querySelectorAll('.empty');
-  bkgrnd.forEach((box) => {
-    currentBkgrndColor = event.target.value;
-    box.style.backgroundColor = currentBkgrndColor;
+  const bkgrnd = document.querySelectorAll(".empty");
+  currentBkgrndColor = event.target.value;
+  bkgrnd.forEach((singleBox) => {
+    singleBox.style.backgroundColor = currentBkgrndColor;
   });
-
-  const box = document.querySelectorAll('.box');
-  box.forEach((boxSq) => {
-    boxSq.addEventListener('mouseenter', function() {
-      boxSq.style.backgroundColor = currentPenColor;
-      boxSq.classList.remove('empty'); 
+  const box = document.querySelectorAll(".box");
+  box.forEach((singleBox) => {
+    singleBox.addEventListener("mouseenter", function () {
+      if (rainbowMode) {
+        singleBox.style.backgroundColor = getRandomColor();
+      } else {
+        singleBox.style.backgroundColor = currentPenColor;
+      }
+      singleBox.classList.remove("empty");
     });
   });
 }
-
 
 // Let browser know that 'Rainbow' button clicked and set pen color to random colors generated by setRainbow function
-const penRainbow = document.getElementById('rainbow');
-penRainbow.addEventListener('click', setRainbow, false /* 'false' doesn't seem necessary here?? */);
+const penRainbow = document.getElementById("rainbow");
+penRainbow.addEventListener("click", setRainbow);
 function setRainbow() {
   rainbowMode = true;
   eraserMode = false;
   checkMode();
-
   const boxColor = document.querySelectorAll(".box");
-  // 'this' refers to 'penRainbow' variable here 
-  if (this) {
-    boxColor.forEach((box) => {
-      box.addEventListener('mouseenter', function() {
-        //currentPenColor = getRandomColor();
-        //box.style.backgroundColor = currentPenColor;
-
-        box.style.backgroundColor = getRandomColor();
-        box.classList.remove('empty'); 
-
-      });
+  boxColor.forEach((singleBox) => {
+    singleBox.addEventListener("mouseenter", function () {
+      singleBox.style.backgroundColor = getRandomColor();
+      singleBox.classList.remove("empty");
     });
-  }
+  });
 }
 
-// Random color generator
+// Return bright rainbow colors
 function getRandomColor() {
-  
-  // Another option is "#" + Math.floor(Math.random()*16777215).toString(16) 
-  // Or `rgb(${Math.floor(Math.random() * 256), ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256))`
-  // Below returns fewer, but more colorful, colors
   return `hsl(${Math.random() * 360}, 100%, 50%)`;
 }
 
-// ERASER: Set color to white when mouse over grid boxes to create eraser effect
-const penEraser = document.getElementById('eraser');
-penEraser.addEventListener('click', setEraser, false);
+// Let browser know that 'Eraser' clicked and set pen color to background color for eraser effect
+const penEraser = document.getElementById("eraser");
+penEraser.addEventListener("click", setEraser);
 function setEraser() {
   rainbowMode = false;
   eraserMode = true;
   checkMode();
-
   const boxColor = document.querySelectorAll(".box");
-  if (this) {
-    boxColor.forEach((box) => {
-      box.addEventListener('mouseenter', function() {
-        box.style.backgroundColor = currentBkgrndColor;
-        box.classList.add('empty'); 
-      });
-    }); 
-  }
+  boxColor.forEach((singleBox) => {
+    singleBox.addEventListener("mouseenter", function () {
+      singleBox.style.backgroundColor = currentBkgrndColor;
+      singleBox.classList.add("empty");
+    });
+  });
 }
 
-// CLEAR GRID
-const clear = document.getElementById('clear');
-clear.addEventListener('click', function() {
-  const box = document.querySelectorAll('.box');
-  box.forEach((boxSq) => {
-    boxSq.style.backgroundColor = currentBkgrndColor;
-    boxSq.classList.add('empty'); 
-    boxSq.addEventListener('mouseenter', function() {
+// When 'Clear" clicked, set all boxes to background color, set pen mode to current color mode
+const clear = document.getElementById("clear");
+clear.addEventListener("click", function () {
+  const box = document.querySelectorAll(".box");
+  box.forEach((singleBox) => {
+    singleBox.style.backgroundColor = currentBkgrndColor;
+    singleBox.classList.add("empty");
+    singleBox.addEventListener("mouseenter", function () {
       if (rainbowMode) {
-        boxSq.style.backgroundColor = getRandomColor();
+        singleBox.style.backgroundColor = getRandomColor();
       } else if (eraserMode) {
-        boxSq.style.backgroundColor = currentBkgrndColor;
+        singleBox.style.backgroundColor = currentBkgrndColor;
       } else {
-        boxSq.style.backgroundColor = currentPenColor;
+        singleBox.style.backgroundColor = currentPenColor;
       }
-      boxSq.classList.remove('empty'); 
+      singleBox.classList.remove("empty");
     });
   });
 });
 
-// TOGGLE GRID LINES
-const gridToggle = document.getElementById('grid-lines');
-gridToggle.addEventListener('click', function () {
-  const box = document.querySelectorAll('.box');
+// Toggle grid lines by removing box borders upon button click
+const gridToggle = document.getElementById("grid-lines");
+gridToggle.addEventListener("click", function () {
+  const box = document.querySelectorAll(".box");
   box.forEach((boxSq) => {
-    boxSq.classList.toggle('gridLines');
+    boxSq.classList.toggle("gridLines");
   });
-})
-
-
-
-
-
-
-
-
-/* The following was written to try to figure out the shade and lighten functionalities; will revisit later
-const penShade = document.getElementById('shade');
-penShade.addEventListener('click', shade, false ('false' doesn't seem necessary here??));
-
-function shade() {
-  const boxColor = document.querySelectorAll(".box");
-  if (this) {
-    boxColor.forEach((box) => {
-      box.addEventListener('mouseenter', function(e) {
-        let oldColor = e.target.style.backgroundColor;
-        
-        // oldColor values seems to be given in rgb but if give rgba values can use code below to check 
-         //let rgbaString = (oldColor.charAt(3) == 'a') ? oldColor.slice(5, -1) : oldColor.slice(4, -1);
-        
-        //let rgbString = oldColor.slice(4, -1);
-        //let rgbArray = rgbString.split(',');
-        
-        let rgbArray = oldColor.slice(4, -1).split(',');
-        console.log(rgbArray);
-        let red = rgbArray[0];
-        let green = rgbArray[1];
-        let blue = rgbArray[2];
-        let alpha = rgbArray[3] ? rgbArray[3] : 1;
-
-        console.log(!!rgbArray[3]);
-        let currentDarkeningStep = e.target.dataset.darken;
-        if(currentDarkeningStep == 9) return [0, 0, 0, 1]; //cell is already black
-        console.log([red, green, blue, alpha]);
-        console.log('Current darkening step: ' + currentDarkeningStep);
-      });
-    });
-  }
-*/
-
-
-/* This returns event.target.value, originally used to try to get the value of color input by adding the function into the penColor event listener and setting backgroundColor to the value but this didn't work
-function getValue(event) {
-  console.log(event.target.value);
-  return event.target.value;
-}
-*/
+});
